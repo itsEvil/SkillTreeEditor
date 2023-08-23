@@ -28,9 +28,11 @@ public class UIPanel : MonoBehaviour
 
     private void OnConnections()
     {
-        _connectionsMode = !_connectionsMode;
+        _connectionsMode = !MainManager.Instance.ConnectionMode;
 
         _connectionsText.text = $"Connection Mode: {(_connectionsMode ? "True" : "False")}";
+
+        MainManager.Instance.ConnectionMode = _connectionsMode;
     }
 
     private void OnLoad()

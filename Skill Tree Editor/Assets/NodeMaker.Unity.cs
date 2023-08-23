@@ -10,8 +10,8 @@ public partial class NodeMaker : MonoBehaviour
     [SerializeField] private RectTransform _statsRect, _nodeEffectRect;
     [SerializeField] private Button _complete, _percentage, _remove;
     [SerializeField] private TMP_Dropdown _nodeTypeDropdown, _statTypeDropdown, _nodeEffectDropdown;
-    [SerializeField] private TMP_InputField _statAmountInputField, _titleInputField, _descInputField;
-    [SerializeField] private TMP_Text _percentageText;
+    [SerializeField] private TMP_InputField _statAmountInputField, _titleInputField, _descInputField, _idInputField;
+    [SerializeField] private TMP_Text _percentageText, _typeText;
 
     private bool _isPercentage = false;
     private Vector2 _location = Vector2.zero;
@@ -42,7 +42,13 @@ public partial class NodeMaker : MonoBehaviour
         else if (_nodeTypeDropdown.value == 2)
             rewardIndex = _nodeEffectDropdown.value;
 
-        _data = new NodeData(_titleInputField.text, _descInputField.text, (NodeReward)_nodeTypeDropdown.value, rewardIndex, rewardAmount, _isPercentage);
+        int id = _data.Type;
+        if(id == 0 || id == -1) 
+        {
+            id = MainManager.Instance.GetId();
+        }
+
+        _data = new NodeData(id, _idInputField.text, _titleInputField.text, _descInputField.text, (NodeReward)_nodeTypeDropdown.value, rewardIndex, rewardAmount, _isPercentage);
 
         MainManager.Instance.UpdateButton(_location, _data);
         gameObject.SetActive(false);

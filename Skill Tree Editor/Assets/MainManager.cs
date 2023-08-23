@@ -43,9 +43,14 @@ public class MainManager : MonoBehaviour
     }
     public void OnButtonPress(Vector2 pos)
     {
-        foreach(var position in Utils.GetNeighbours(pos)) //Workout neighbours
+        AddNeighbours(pos);
+    }
+
+    private void AddNeighbours(Vector2 pos)
+    {
+        foreach (var position in Utils.GetNeighbours(pos)) //Workout neighbours
         {
-            if(!_buttons.ContainsKey(position)) //Does neighbour location exist in our "db"
+            if (!_buttons.ContainsKey(position)) //Does neighbour location exist in our "db"
             {
                 _lowest = Vector2.Min(position, _lowest); //if no add a new button for that location
                 _highest = Vector2.Max(position, _highest);
@@ -53,6 +58,20 @@ public class MainManager : MonoBehaviour
                 CreateNewButton(position);
             }
         }
+    }
+
+    private void CreateNewButton(Vector2 position, NodeData data)
+    {
+        var obj = Instantiate(_buttonPrefab, _container);
+        obj.transform.localPosition = position;
+        obj.Init(position, data, true);
+
+        _buttons[position] = obj;
+
+        _container.sizeDelta = new Vector2(
+            Vector2.Distance(new Vector2(_lowest.x, 0), new Vector2(_highest.x, 0)) * 2,
+            Vector2.Distance(new Vector2(0, _lowest.y), new Vector2(0, _highest.y)) * 2
+            );
     }
     private void CreateNewButton(Vector2 position)
     {
@@ -115,6 +134,44 @@ public class MainManager : MonoBehaviour
         if(hasValidNeighbour)
             CreateNewButton(position);
     }
+    public void OnLoad(string text)
+    {
+        if (!text.Contains("Skills"))
+        {
+            Debug.Log("Does not contain root tag!");
+            return;
+        }
+
+        //Clean up
+        RemoveAll();
+
+        Debug.Log($"Loaded data: {text}");
+
+        XElement data = XElement.Parse(text);
+
+        foreach(var skillXml in data.Elements("Skill"))
+        {
+            NodeData nodeData = new(skillXml);
+            Vector2 position = new(skillXml.ParseFloat("X"), skillXml.ParseFloat("Y"));
+
+            CreateNewButton(position, nodeData);
+
+            AddNeighbours(position);
+        }
+    }
+
+    private void RemoveAll()
+    {
+        _container.sizeDelta = _lowest = _highest = Vector2.zero;
+
+        foreach(var button in _buttons.Values)
+        {
+            Destroy(button.gameObject);
+        }
+
+        _buttons = new Dictionary<Vector2, UIButton>();
+    }
+
     public XElement OnSave()
     {
         XElement data = new XElement("Skills");

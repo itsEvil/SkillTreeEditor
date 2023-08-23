@@ -14,14 +14,27 @@ public class UIButton : MonoBehaviour
     private Vector2 _pos;
     private NodeData _data;
     private bool _canEdit;
-    public void Init(Vector2 position, NodeData data)
+    public void Init(Vector2 position, NodeData data, bool hasData = false)
     {
         _pos = position;
         _data = data;
         _icon.color = Color.white;
-        _canEdit = false;
+        _canEdit = hasData;
         _titleText.text = data.Title;
+
+        if (_canEdit)
+            PopulateUI();
     }
+
+    private void PopulateUI()
+    {
+        _titleText.text = _data.Title;
+        _icon.color = Color.gray;
+        _addText.gameObject.SetActive(false);
+        _editText.gameObject.SetActive(true);
+        _titleText.gameObject.SetActive(true);
+    }
+
     public void OnEnable()
     {
         _button.onClick.AddListener(OnClick);

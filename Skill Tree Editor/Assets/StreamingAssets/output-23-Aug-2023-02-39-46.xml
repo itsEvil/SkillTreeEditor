@@ -1,0 +1,42 @@
+<Skills>
+  <Skill>
+    <X>0</X>
+    <Y>0</Y>
+    <DisplayTitle />
+    <Description />
+    <NodeReward>0</NodeReward>
+    <RewardIndex>0</RewardIndex>
+    <RewardAmount>0</RewardAmount>
+    <IsPercentage>false</IsPercentage>
+  </Skill>
+  <Skill>
+    <X>-100</X>
+    <Y>0</Y>
+    <DisplayTitle>a</DisplayTitle>
+    <Description>ada</Description>
+    <NodeReward>0</NodeReward>
+    <RewardIndex>0</RewardIndex>
+    <RewardAmount>0</RewardAmount>
+    <IsPercentage>false</IsPercentage>
+  </Skill>
+  <Skill>
+    <X>-200</X>
+    <Y>0</Y>
+    <DisplayTitle>adadad</DisplayTitle>
+    <Description></Description>
+    <NodeReward>0</NodeReward>
+    <RewardIndex>0</RewardIndex>
+    <RewardAmount>0</RewardAmount>
+    <IsPercentage>false</IsPercentage>
+  </Skill>
+  <Skill>
+    <X>-300</X>
+    <Y>0</Y>
+    <DisplayTitle />
+    <Description />
+    <NodeReward>0</NodeReward>
+    <RewardIndex>0</RewardIndex>
+    <RewardAmount>0</RewardAmount>
+    <IsPercentage>false</IsPercentage>
+  </Skill>
+</Skills>

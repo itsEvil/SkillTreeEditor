@@ -1,5 +1,4 @@
 ﻿using System.Xml.Linq;
-
 public readonly struct NodeData
 {
     public static NodeData Empty = new();
@@ -23,7 +22,15 @@ public readonly struct NodeData
         RewardAmount = rewardAmount;
         IsPercentage = isPercentage;
     }
-
+    public NodeData(XElement data)
+    {
+        Title = data.ParseString("DisplayTitle", string.Empty);
+        Description = data.ParseString("Description", string.Empty);
+        Reward = (NodeReward)data.ParseInt("NodeReward");
+        RewardIndex = data.ParseInt("RewardIndex");
+        RewardAmount = data.ParseInt("RewardAmount");
+        IsPercentage = data.ParseBool("IsPercentage");
+    }
     public XElement Export(XElement data)
     {
         data.Add(new XElement("DisplayTitle", Title));

@@ -8,12 +8,15 @@ using UnityEngine.UI;
 using UnityEngine.Windows;
 using System.IO;
 using System.Text;
+using UnityEditor;
+using UnityEngine.Networking;
 
 public class UIPanel : MonoBehaviour
 {
     [SerializeField] private Button _save, _load, _connections;
     [SerializeField] private TMP_Text _connectionsText;
     private bool _connectionsMode = false;
+    private string _path;
     public void Awake()
     {
         _save.onClick.AddListener(OnSave);
@@ -32,7 +35,23 @@ public class UIPanel : MonoBehaviour
 
     private void OnLoad()
     {
-        //OnLoad
+        _path = EditorUtility.OpenFilePanel("Skill Tree File (.xml)", "", "xml");
+        StartCoroutine(ReadFile());
+    }
+
+    IEnumerator ReadFile()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(_path);
+
+        yield return www.SendWebRequest();
+
+        if(www.isNetworkError || www.isHttpError)
+        {
+            Debug.LogError(www.error);
+        }
+
+        MainManager.Instance.OnLoad(www.downloadHandler.text);
+
     }
 
     private async void OnSave()

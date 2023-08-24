@@ -310,9 +310,9 @@ MonoBehaviour:
   m_Content: {fileID: 1067196210}
   m_Horizontal: 1
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 0
   m_Viewport: {fileID: 0}
@@ -5909,7 +5909,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410500322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c930837f1e76b440b583d19cbe1d417, type: 3}
+  m_Script: {fileID: 11500000, guid: 227e01bdea2f7194d97fa6c02852abde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _save: {fileID: 1857869560}
@@ -6006,7 +6006,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1414622212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af787e47c0089ab46aeed72223b718d8, type: 3}
+  m_Script: {fileID: 11500000, guid: e5e48cfec6edd5444a13dcdefe93b75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _statsRect: {fileID: 551810748}
@@ -8421,13 +8421,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2073045731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef3fa642316c1d342bad4705f21bccef, type: 3}
+  m_Script: {fileID: 11500000, guid: b44d4c87633de0c42a93d620ad71ad77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttonPrefab: {fileID: 4450789341880903901, guid: 906fd8736b24d664ba5569d53a889e1b, type: 3}
+  _buttonPrefab: {fileID: 4843743479663270095, guid: 906fd8736b24d664ba5569d53a889e1b, type: 3}
   _container: {fileID: 1067196210}
   _linePrefab: {fileID: 6856221508186005446, guid: 61eb85e32e58b3943a68b06e63020092, type: 3}
-  ConnectionMode: 0
 --- !u!1 &2075957631
 GameObject:
   m_ObjectHideFlags: 0

@@ -74,3 +74,7 @@ The user can click on these nodes to edit their data.
 They can be removed and converted back to Empty Nodes.
 
 They do not need any information in them to be saved.
+
+# Credits
+
+Me.

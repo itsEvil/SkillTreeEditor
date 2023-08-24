@@ -1,3 +1,5 @@
+![alt text](https://github.com/itsEvil/SkillTreeEditor/blob/main/logo.png?raw=true)
+
 # Skill Tree Editor v0.2
 
 This editor was made to speed up the iterative process of creating and managing a skill tree system on my game Forgotten Pantheon.

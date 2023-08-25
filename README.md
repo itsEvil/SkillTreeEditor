@@ -1,11 +1,17 @@
 ![alt text](https://github.com/itsEvil/SkillTreeEditor/blob/main/logo.png?raw=true)
 
-# Skill Tree Editor v0.3
+# Skill Tree Editor v0.3.1
 
 ### 0.3 Changelogs
 
 - Multiple rewards support
 - Starting node/class support 
+
+### 0.3.1 Changelogs
+- Line removal [Link to commit](https://github.com/itsEvil/SkillTreeEditor/commit/b88b1248f0a8e26bcee967ba40f154b7e5beb981)
+- Basic zoom system
+- Close button
+- Bug fixes 
 
 This editor was made to speed up the iterative process of creating and managing a skill tree system on my game Forgotten Pantheon.
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public partial class MainManager : MonoBehaviour
 {
@@ -6,8 +7,10 @@ public partial class MainManager : MonoBehaviour
     {
         var position = Vector3.Lerp(first.transform.localPosition, second.transform.localPosition, 0.5f);
 
-        if (_lines.ContainsKey(position))
+        if (_lines.TryGetValue(position, out var line))
         {
+            RemoveLine(position, line, first, second);
+
             Debug.Log($"Line already exists at {position}");
             return;
         }
@@ -21,6 +24,21 @@ public partial class MainManager : MonoBehaviour
 
         first.AddConnection(second.GetId());
         second.AddConnection(first.GetId());
+    }
+
+    private void RemoveLine(Vector2 position, UILine line, UIButton first, UIButton second)
+    {
+        if(!first.HasId(second.GetId()) && !second.HasId(first.GetId()))
+        {
+            Debug.Log("Failed to find correct Id's in button connections");
+            return;
+        }
+
+        _lines.Remove(position);
+        Destroy(line.gameObject);
+
+        second.RemoveConnection(first.GetId());
+        first.RemoveConnection(second.GetId());
     }
 
     private void AddNeighbours(Vector2 pos)//Logic to add neighbours

@@ -70,7 +70,7 @@ public partial class MainManager : MonoBehaviour
 
         _id2Button[id] = button;
 
-        return new NodeData(id, $"Skill Node {id}", string.Empty, string.Empty, NodeReward.None, 0, 0, false);
+        return new NodeData(id, $"Skill Node {id}", "", "", new RewardData[0]);
     }
 }
 

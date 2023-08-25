@@ -1,24 +1,33 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class NodeMaker : MonoBehaviour
 {
-    [SerializeField] private RectTransform _statsRect, _nodeEffectRect;
-    [SerializeField] private Button _complete, _percentage, _remove;
-    [SerializeField] private TMP_Dropdown _nodeTypeDropdown, _statTypeDropdown, _nodeEffectDropdown;
-    [SerializeField] private TMP_InputField _statAmountInputField, _titleInputField, _descInputField, _idInputField;
-    [SerializeField] private TMP_Text _percentageText, _typeText;
+    [SerializeField] private RectTransform _container;
+    [SerializeField] private Button _complete, _remove, _isStart, _addReward;
+    [SerializeField] private TMP_Dropdown _classDropdown;
+    [SerializeField] private TMP_InputField _titleInputField, _descInputField, _idInputField;
+    [SerializeField] private TMP_Text _typeText, _isStartText;
+
+    [SerializeField] private RewardItem _rewardPrefab;
+
+    private List<RewardItem> _rewardItems = new();
+
     public void OnEnable()
     {
-        _nodeTypeDropdown.onValueChanged.AddListener(OnNodeType);
+        _addReward.onClick.AddListener(AddNewReward);
         _complete.onClick.AddListener(OnComplete);
-        _percentage.onClick.AddListener(TogglePercentage);
+        _isStart.onClick.AddListener(OnStart);
         _remove.onClick.AddListener(OnRemove);
     }
+
     public void OnDisable()
     {
-        _percentage.onClick.RemoveAllListeners();
+        _isStart.onClick.RemoveAllListeners();
+        _addReward.onClick.RemoveAllListeners();
         _complete.onClick.RemoveAllListeners();
         _remove.onClick.RemoveAllListeners();
     }

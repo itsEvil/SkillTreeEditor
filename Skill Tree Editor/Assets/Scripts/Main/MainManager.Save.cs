@@ -5,7 +5,7 @@ public partial class MainManager : MonoBehaviour
 {
     public XElement OnSave()
     {
-        XElement data = new XElement("Skills");
+        XElement data = new("Skills");
         foreach (var button in _buttons.Values)
         {
             if (!button.CanExport())

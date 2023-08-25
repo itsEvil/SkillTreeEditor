@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Xml.Linq;
 public readonly struct NodeData
 {
@@ -12,24 +14,17 @@ public readonly struct NodeData
 
     public readonly string Title;
     public readonly string Description;
-   
-    //What reward type
-    public readonly NodeReward Reward;
-    //What reward inside of the type
-    public readonly int RewardIndex;
-    //amount of that reward
-    public readonly int RewardAmount;
-    public readonly bool IsPercentage;
-    public NodeData(int type, string id, string title, string description, NodeReward reward, int rewardIndex, int rewardAmount, bool isPercentage)
+
+    public readonly RewardData[] Rewards;
+    public readonly int StartClass;
+    public NodeData(int type, string id, string title, string description, RewardData[] rewards, int startClass = -1)
     {
         Type = type;
         Id = id;
         Title = title;
         Description = description;
-        Reward = reward;
-        RewardIndex = rewardIndex;
-        RewardAmount = rewardAmount;
-        IsPercentage = isPercentage;
+        Rewards = rewards;
+        StartClass = startClass;
 
         if (Id == null || Id.Length == 0)
             Id = $"Skill Node {Type}";
@@ -40,10 +35,15 @@ public readonly struct NodeData
         Id = data.ParseString("@id", $"Skill Node {Type}");
         Title = data.ParseString("DisplayTitle", string.Empty);
         Description = data.ParseString("Description", string.Empty);
-        Reward = (NodeReward)data.ParseInt("NodeReward");
-        RewardIndex = data.ParseInt("RewardIndex");
-        RewardAmount = data.ParseInt("RewardAmount");
-        IsPercentage = data.ParseBool("IsPercentage");
+
+        var list = new List<RewardData>();
+        foreach(var rewardXml in data.Elements("Reward"))
+        {
+            list.Add(new RewardData(rewardXml));
+        }
+        Rewards = list.ToArray();
+
+        StartClass = data.ParseInt("StartClass", -1);
     }
     public XElement Export(XElement data)
     {
@@ -56,6 +56,44 @@ public readonly struct NodeData
         
         data.Add(new XElement("DisplayTitle", Title));
         data.Add(new XElement("Description", Description));
+        data.Add(new XElement("StartClass", StartClass));
+
+        foreach(var reward in Rewards)
+        {
+            data.Add(reward.Export());
+        }
+
+        return data;
+    }
+}
+public struct RewardData
+{
+    public static RewardData Empty = new();
+    //What reward type
+    public readonly NodeReward Reward;
+    //What reward inside of the type
+    public readonly int RewardIndex;
+    //amount of that reward
+    public readonly int RewardAmount;
+    public readonly bool IsPercentage;
+
+    public RewardData(NodeReward reward, int rewardIndex, int rewardAmount, bool isPercentage)
+    {
+        Reward = reward;
+        RewardIndex = rewardIndex;
+        RewardAmount = rewardAmount;
+        IsPercentage = isPercentage;
+    }
+    public RewardData(XElement data)
+    {
+        Reward = (NodeReward)data.ParseInt("NodeReward");
+        RewardIndex = data.ParseInt("RewardIndex");
+        RewardAmount = data.ParseInt("RewardAmount");
+        IsPercentage = data.ParseBool("IsPercentage");
+    }
+    public XElement Export()
+    {
+        XElement data = new XElement("Reward");
         data.Add(new XElement("NodeReward", (int)Reward));
         data.Add(new XElement("RewardIndex", RewardIndex));
         data.Add(new XElement("RewardAmount", RewardAmount));

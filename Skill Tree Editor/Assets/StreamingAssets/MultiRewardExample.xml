@@ -1,0 +1,34 @@
+<Skills>
+  <Skill type="1" id="Skill Node 1">
+    <X>0</X>
+    <Y>0</Y>
+    <DisplayTitle>Node 1</DisplayTitle>
+    <Description></Description>
+    <StartClass>1</StartClass>
+    <Reward>
+      <NodeReward>1</NodeReward>
+      <RewardIndex>0</RewardIndex>
+      <RewardAmount>5</RewardAmount>
+      <IsPercentage>true</IsPercentage>
+    </Reward>
+    <Reward>
+      <NodeReward>1</NodeReward>
+      <RewardIndex>2</RewardIndex>
+      <RewardAmount>15</RewardAmount>
+      <IsPercentage>false</IsPercentage>
+    </Reward>
+    <Reward>
+      <NodeReward>2</NodeReward>
+      <RewardIndex>0</RewardIndex>
+      <RewardAmount>0</RewardAmount>
+      <IsPercentage>false</IsPercentage>
+    </Reward>
+    <Reward>
+      <NodeReward>2</NodeReward>
+      <RewardIndex>0</RewardIndex>
+      <RewardAmount>0</RewardAmount>
+      <IsPercentage>false</IsPercentage>
+    </Reward>
+    <Connections></Connections>
+  </Skill>
+</Skills>

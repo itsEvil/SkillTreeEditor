@@ -4,7 +4,8 @@ public partial class NodeMaker : MonoBehaviour
 {
     public static NodeMaker Instance { get; private set; }
 
-    private bool _isPercentage = false;
+    private bool _isStartNode = false;
+
     private Vector2 _location = Vector2.zero;
     private NodeData _data;
     public void Init(Vector2 pos, NodeData data)
@@ -14,56 +15,77 @@ public partial class NodeMaker : MonoBehaviour
         gameObject.SetActive(true);
         _location = pos;
     }
+    private void AddNewReward()
+    {
+        AddReward(RewardData.Empty);
+    }
+    private void AddReward(RewardData data)
+    {
+        var obj = Instantiate(_rewardPrefab, _container);
+        obj.Init(data);
+
+        _rewardItems.Add(obj);
+    }
     private void PopulateUI(NodeData data)
     {
         _typeText.text = "Type: " + _data.Type;
-        _isPercentage = data.IsPercentage;
         _idInputField.text = data.Id;
-        _nodeEffectDropdown.value = data.RewardIndex;
-        _nodeTypeDropdown.value = (int)data.Reward;
-        _statTypeDropdown.value = data.RewardIndex;
-        _statAmountInputField.text = data.RewardAmount.ToString();
 
+        if (data.StartClass != -1)
+        {
+            _classDropdown.value = data.StartClass;
+            _isStartText.text = "Is Start: Yes";
+        }
+        else
+        {
+            _classDropdown.gameObject.SetActive(false);
+            _isStartText.text = "Is Start: No";
+        }
+        _classDropdown.value = data.StartClass;
         _titleInputField.text = data.Title;
         _descInputField.text = data.Description;
 
-        OnNodeType((int)data.Reward);
+        if(_rewardItems.Count != 0)
+        {
+            ClearRewards();
+        }
 
-        UpdatePercentageText();
+        foreach (var reward in data.Rewards)
+        {
+            AddReward(reward);
+        }
     }
-    private void TogglePercentage()
+
+    private void ClearRewards()
     {
-        _isPercentage = !_isPercentage;
-        UpdatePercentageText();
+        for (int i = 0; i < _rewardItems.Count; i++)
+        {
+            Destroy(_rewardItems[i].gameObject);
+        }
+
+        _rewardItems = new();
     }
-    private void UpdatePercentageText()
+
+    private void OnStart()
     {
-        _percentageText.text = $"IsPercentage: {(_isPercentage ? "Yes" : "No")}";
+        _isStartNode = !_isStartNode;
+        _isStartText.text = $"Is Start: {(_isStartNode ? "Yes" : "No")}";
+
+        _classDropdown.gameObject.SetActive(_isStartNode);
     }
     private void OnComplete()
     {
-        int rewardIndex = 0;
-        int rewardAmount = 0;
+        int startClass = !_isStartNode ? -1 : _classDropdown.value;
+        int id = _data.Type == 0 || _data.Type == -1 ? MainManager.Instance.GetId() : _data.Type;
 
-        if (_nodeTypeDropdown.value == 1)
+        RewardData[] rewards = new RewardData[_rewardItems.Count];
+
+        for(int i =0; i < _rewardItems.Count; i++) 
         {
-            rewardIndex = _statTypeDropdown.value;
-
-            if (!int.TryParse(_statAmountInputField.text, out rewardAmount))
-            {
-                rewardAmount = 0;
-            }
-        }
-        else if (_nodeTypeDropdown.value == 2)
-            rewardIndex = _nodeEffectDropdown.value;
-
-        int id = _data.Type;
-        if (id == 0 || id == -1)
-        {
-            id = MainManager.Instance.GetId();
+            rewards[i] = _rewardItems[i].Export();
         }
 
-        _data = new NodeData(id, _idInputField.text, _titleInputField.text, _descInputField.text, (NodeReward)_nodeTypeDropdown.value, rewardIndex, rewardAmount, _isPercentage);
+        _data = new NodeData(id, _idInputField.text, _titleInputField.text, _descInputField.text, rewards, startClass);
 
         MainManager.Instance.UpdateButton(_location, _data);
         gameObject.SetActive(false);
@@ -73,11 +95,5 @@ public partial class NodeMaker : MonoBehaviour
     {
         MainManager.Instance.Remove(_location);
         gameObject.SetActive(false);
-    }
-
-    private void OnNodeType(int value)
-    {
-        _statsRect.gameObject.SetActive(value == 1);
-        _nodeEffectRect.gameObject.SetActive(value == 2);
     }
 }

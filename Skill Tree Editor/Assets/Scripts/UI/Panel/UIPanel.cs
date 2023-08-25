@@ -69,9 +69,7 @@ public partial class UIPanel : MonoBehaviour
         var fileName = $"output-{Utils.GetCurrentTime()}.xml";
         var path = Path.Combine(directory, fileName);
 
-        //Debug.Log(fileName);
-
-        await System.IO.File.WriteAllTextAsync(path, data.ToString());
+        await File.WriteAllTextAsync(path, data.ToString());
     }
 
     public void OnClose()

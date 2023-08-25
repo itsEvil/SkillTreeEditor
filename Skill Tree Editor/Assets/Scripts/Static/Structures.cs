@@ -5,7 +5,7 @@ using System.Data;
 using System.Xml.Linq;
 public readonly struct NodeData
 {
-    public static NodeData Empty = new();
+    public static NodeData Empty = new(0, "", "", "", Array.Empty<RewardData>(), -1);
 
     [DefaultValue(0)] //probably not needed
     public readonly int Type;
@@ -68,7 +68,7 @@ public readonly struct NodeData
 }
 public struct RewardData
 {
-    public static RewardData Empty = new();
+    public static RewardData Empty = new(NodeReward.None, 0, 0, false);
     //What reward type
     public readonly NodeReward Reward;
     //What reward inside of the type
@@ -76,7 +76,6 @@ public struct RewardData
     //amount of that reward
     public readonly int RewardAmount;
     public readonly bool IsPercentage;
-
     public RewardData(NodeReward reward, int rewardIndex, int rewardAmount, bool isPercentage)
     {
         Reward = reward;

@@ -7,13 +7,14 @@ public partial class MainManager : MonoBehaviour
 {
     public static MainManager Instance { get; private set; }
 
-    [ReadOnlyAttribute]
-    [SerializeField] private string _ = "The larger the number the smaller the line will be";//
-    [ReadOnlyAttribute]
-    [SerializeField] private string __ = "Default = 1f (no gap between button and line)";//
-    public float LineModifier = 1f; //The larger the number the smaller the line will look | default = 1f (no gap meaning its easier to tell where the line points to)
-    
+    [Tooltip("The larger the number the smaller the line will look | default = 1f (no gap between line and button)")]
+    public float LineModifier = 1f;
+
+    [Tooltip("Amount of autosaves before we delete old ones")]
+    public int AutosaveCount = 5;
+
     private float _scale = 1f;
+    [Tooltip("On mouse wheel how much do we zoom in / out.\nHolding left shift increases this by 4x")]
     [SerializeField]
     private float _scalePerInput = 0.05f;
 
@@ -23,6 +24,8 @@ public partial class MainManager : MonoBehaviour
     //Stores all the button locations
     private void Awake()
     {
+        _timeUntilSave = _saveCooldown;
+
         Instance = this;
     }
     public void Start()
@@ -34,6 +37,19 @@ public partial class MainManager : MonoBehaviour
     {
         HandleZoom();
         ResetZoom();
+        HandleAutoSave();
+    }
+
+    private void HandleAutoSave()
+    {
+        _timeUntilSave -= Time.deltaTime;
+    
+        if(_timeUntilSave <= 0 && _buttons.Count > 1)//not just starting button
+        {
+            _timeUntilSave = _saveCooldown;
+
+            UIPanel.Instance.OnAutosave();
+        }
     }
 
     private void ResetZoom()

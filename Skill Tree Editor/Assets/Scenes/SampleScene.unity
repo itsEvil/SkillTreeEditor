@@ -6165,13 +6165,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b44d4c87633de0c42a93d620ad71ad77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _: The larger the number the smaller the line will be
-  __: Default = 1f (no gap between button and line)
   LineModifier: 1
+  AutosaveCount: 5
   _scalePerInput: 0.01
   _buttonPrefab: {fileID: 4843743479663270095, guid: 906fd8736b24d664ba5569d53a889e1b, type: 3}
   _container: {fileID: 1067196210}
   _linePrefab: {fileID: 6856221508186005446, guid: 61eb85e32e58b3943a68b06e63020092, type: 3}
+  _saveCooldown: 60
 --- !u!1 &2073204780
 GameObject:
   m_ObjectHideFlags: 0

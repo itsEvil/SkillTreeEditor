@@ -8,7 +8,7 @@
 - Starting node/class support 
 
 ### 0.3.1 Changelogs
-- Line removal ![Alt](https://github.com/itsEvil/SkillTreeEditor/commit/b88b1248f0a8e26bcee967ba40f154b7e5beb981 "Link to commit")
+- Line removal [Link to commit](https://github.com/itsEvil/SkillTreeEditor/commit/b88b1248f0a8e26bcee967ba40f154b7e5beb981)
 - Basic zoom system
 - Close button
 - Bug fixes 

@@ -8,6 +8,8 @@ public partial class UIPanel : MonoBehaviour
     [SerializeField] private TMP_Text _connectionsText;
     public void Awake()
     {
+        Instance = this;
+
         _save.onClick.AddListener(OnSave);
         _load.onClick.AddListener(OnLoad);
         _connections.onClick.AddListener(OnConnections);

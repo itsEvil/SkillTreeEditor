@@ -10,6 +10,6 @@ public class UILine : MonoBehaviour
 
         rectTransform.rotation = Quaternion.Euler(0f, 0f, (float)Math.Atan2(positions[1].y - positions[0].y, positions[1].x - positions[0].x) * Mathf.Rad2Deg);
 
-        rectTransform.sizeDelta = new Vector2(Vector3.Distance(positions[0], positions[1]) / 2f, rectTransform.sizeDelta.y);
+        rectTransform.sizeDelta = new Vector2(Vector3.Distance(positions[0], positions[1]) / MainManager.Instance.LineModifier, rectTransform.sizeDelta.y);
     }
 }

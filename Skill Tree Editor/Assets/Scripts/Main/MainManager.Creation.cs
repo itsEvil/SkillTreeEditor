@@ -2,14 +2,15 @@ using System;
 using UnityEngine;
 public partial class MainManager : MonoBehaviour
 {
-    private void CreateNewLine(UIButton first, UIButton second)//Creates a line by figuring out where to put it
+    private void CreateNewLine(UIButton first, UIButton second, bool remove = false)//Creates a line by figuring out where to put it
                                                                //from the location of two buttons
     {
         var position = Vector3.Lerp(first.transform.localPosition, second.transform.localPosition, 0.5f);
 
         if (_lines.TryGetValue(position, out var line))
         {
-            RemoveLine(position, line, first, second);
+            if(remove)
+                RemoveLine(position, line, first, second);
 
             Debug.Log($"Line already exists at {position}");
             return;

@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 
 public partial class UIPanel : MonoBehaviour
 {
+    public static UIPanel Instance { get ; private set; }   
+
     private bool _connectionsMode = false;
     private string _path;
     private void OnConnections()
@@ -46,4 +48,16 @@ public partial class UIPanel : MonoBehaviour
 
         await System.IO.File.WriteAllTextAsync(path, data.ToString());
     }
+
+    public void OnClose()
+    {
+        OnSave();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+
 }
+

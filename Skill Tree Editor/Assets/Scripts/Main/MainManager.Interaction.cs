@@ -59,6 +59,6 @@ public partial class MainManager : MonoBehaviour
         
         _firstSelected = false;
 
-        CreateNewLine(first, button);//button = second here
+        CreateNewLine(first, button, true);//button = second here
     }
 }

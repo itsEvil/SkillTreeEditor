@@ -16,15 +16,22 @@ public partial class MainManager : MonoBehaviour
     }
     public void OnButtonPress(Vector2 pos) //When we press a button
     {
-        if(!ConnectionMode)
+        if (!ConnectionMode && !RemovalMode)
         {
-            //if we are not in connection mode that means this was a
-            //Empty Node which we convered to a edit node 
-            //so we gotta add the neighbours now
-            AddNeighbours(pos); 
-            return; //return so we don't run the connection mode logic
+            AddNeighbours(pos);
+            return;
         }
 
+        //can only be in one of these modes not both
+        if(ConnectionMode && !RemovalMode)
+            TryConnect(pos);
+
+        if (RemovalMode && !ConnectionMode)//but just to be sure check for both
+            Remove(pos);
+    }
+
+    private void TryConnect(Vector2 pos)
+    {
         //Connection mode logic below
 
         if (!_buttons.TryGetValue(pos, out var button))
@@ -34,7 +41,7 @@ public partial class MainManager : MonoBehaviour
         }
 
         //If we are in connect mode!
-        if(!_firstSelected)
+        if (!_firstSelected)
         {
             button.ChangeColor(Color.blue);//first here
 
@@ -43,7 +50,7 @@ public partial class MainManager : MonoBehaviour
 
 
             return;
-        
+
         }
 
         if (!_buttons.TryGetValue(_first, out var first))
@@ -56,7 +63,7 @@ public partial class MainManager : MonoBehaviour
 
         if (_first == pos)//we clicked on the same button
             return;
-        
+
         _firstSelected = false;
 
         CreateNewLine(first, button, true);//button = second here

@@ -5,8 +5,10 @@ public partial class MainManager : MonoBehaviour
 {
     //Spacing between each button 
     //Changing this value will create weird behaviors with old XML files
-    public static int SPACING = 200; 
-    public static bool ConnectionMode;
+    public static int SPACING = 200;
+
+    public static bool ConnectionMode; 
+    public static bool RemovalMode;
 
     //"Database"
     private static Dictionary<Vector2, UIButton> _buttons   = new Dictionary<Vector2, UIButton>();

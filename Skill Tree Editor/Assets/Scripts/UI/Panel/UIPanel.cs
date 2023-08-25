@@ -9,14 +9,39 @@ public partial class UIPanel : MonoBehaviour
     public static UIPanel Instance { get ; private set; }   
 
     private bool _connectionsMode = false;
+    private bool _removalMode = false;
     private string _path;
     private void OnConnections()
     {
+        if(_removalMode)
+        {
+            Debug.LogWarning("Cannot go into connections mode when removal mode is on!");
+            return;
+        }
+
         _connectionsMode = !MainManager.ConnectionMode;
+
+        _connectionsImage.color = _connectionsMode ? Color.red : Color.white;
 
         _connectionsText.text = $"Connection Mode: {(_connectionsMode ? "True" : "False")}";
 
         MainManager.ConnectionMode = _connectionsMode;
+    }
+    private void OnRemoval()
+    {
+        if(_connectionsMode)
+        {
+            Debug.LogWarning("Cannot go into removal mode when connection mode is on!");
+            return;
+        }
+
+        _removalMode = !MainManager.RemovalMode;
+
+        _removalImage.color = _removalMode ? Color.red : Color.white;
+
+        _removalText.text = $"Removal Mode: {(_removalMode ? "True" : "False")}";
+
+        MainManager.RemovalMode = _removalMode;
     }
     private void OnLoad()
     {

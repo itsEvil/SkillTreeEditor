@@ -111,6 +111,12 @@ public partial class MainManager : MonoBehaviour
 
         if(hasValidNeighbour)
             CreateNewButton(position);
+
+        if(_buttons.Count == 0)
+        {
+            _lowest = _highest = Vector2.zero;
+            CreateNewButton(Vector2.zero);
+        }
     }
     private void RemoveAll() //Destroys every button and line.
     {

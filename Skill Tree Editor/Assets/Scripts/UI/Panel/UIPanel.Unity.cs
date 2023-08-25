@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public partial class UIPanel : MonoBehaviour
 {
-    [SerializeField] private Button _save, _load, _connections;
-    [SerializeField] private TMP_Text _connectionsText;
+    [SerializeField] private Button _save, _load, _connections, _removal;
+    [SerializeField] private TMP_Text _connectionsText, _removalText;
+    [SerializeField] private Image _connectionsImage, _removalImage;
     public void Awake()
     {
         Instance = this;
@@ -13,6 +14,7 @@ public partial class UIPanel : MonoBehaviour
         _save.onClick.AddListener(OnSave);
         _load.onClick.AddListener(OnLoad);
         _connections.onClick.AddListener(OnConnections);
+        _removal.onClick.AddListener(OnRemoval);
 
         UnityEngine.Windows.Directory.CreateDirectory(Application.streamingAssetsPath);
     }

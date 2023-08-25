@@ -25,7 +25,7 @@ public partial class UIButton
             return;
         }
 
-        if(MainManager.ConnectionMode)
+        if(MainManager.ConnectionMode || MainManager.RemovalMode)
         {
             MainManager.Instance.OnButtonPress(_pos);
             return;
@@ -36,7 +36,6 @@ public partial class UIButton
             _data = MainManager.Instance.GetNewData(this); //over write _data with one that contains a unique id
         }
         NodeMaker.Instance.Init(_pos, _data);
-
         //Debug.Log($"We click {_pos} UIButton!");
     }
 }

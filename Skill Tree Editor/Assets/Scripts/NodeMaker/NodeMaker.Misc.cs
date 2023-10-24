@@ -82,7 +82,8 @@ public partial class NodeMaker : MonoBehaviour
 
         for(int i =0; i < _rewardItems.Count; i++) 
         {
-            rewards[i] = _rewardItems[i].Export();
+            var rewardData = _rewardItems[i].Export();
+            rewards[i] = rewardData;
         }
 
         _data = new NodeData(id, _idInputField.text, _titleInputField.text, _descInputField.text, rewards, startClass);

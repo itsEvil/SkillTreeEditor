@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Xml.Linq;
+using Unity.VisualScripting;
+
 public readonly struct NodeData
 {
     public static NodeData Empty = new(0, "", "", "", Array.Empty<RewardData>(), -1);
@@ -76,12 +78,14 @@ public struct RewardData
     //amount of that reward
     public readonly int RewardAmount;
     public readonly bool IsPercentage;
-    public RewardData(NodeReward reward, int rewardIndex, int rewardAmount, bool isPercentage)
+    public readonly int ExtraInt;
+    public RewardData(NodeReward reward, int rewardIndex, int rewardAmount, bool isPercentage, int extraInt = -1)
     {
         Reward = reward;
         RewardIndex = rewardIndex;
         RewardAmount = rewardAmount;
         IsPercentage = isPercentage;
+        ExtraInt = extraInt;
     }
     public RewardData(XElement data)
     {
@@ -89,6 +93,7 @@ public struct RewardData
         RewardIndex = data.ParseInt("RewardIndex");
         RewardAmount = data.ParseInt("RewardAmount");
         IsPercentage = data.ParseBool("IsPercentage");
+        ExtraInt = data.ParseInt("ExtraInt", -1);
     }
     public XElement Export()
     {
@@ -97,7 +102,19 @@ public struct RewardData
         data.Add(new XElement("RewardIndex", RewardIndex));
         data.Add(new XElement("RewardAmount", RewardAmount));
         data.Add(new XElement("IsPercentage", IsPercentage));
+
+        if(ExtraInt != -1)
+            data.Add(new XElement("ExtraInt", ExtraInt));
+
         return data;
+    }
+
+    public bool IsEmpty()
+    {
+        if (Reward == NodeReward.None && RewardIndex == 0 && RewardAmount == 0 && !IsPercentage && ExtraInt == -1)
+            return true;
+
+        return false;
     }
 }
 public struct ConnectionData

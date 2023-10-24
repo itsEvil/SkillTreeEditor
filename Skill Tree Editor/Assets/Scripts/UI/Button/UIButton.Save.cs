@@ -3,7 +3,7 @@ public partial class UIButton
 {
     public XElement Export()
     {
-        XElement data = new XElement("Skill");
+        XElement data = new("Skill");
         data.Add(new XElement("X", _pos.x));
         data.Add(new XElement("Y", _pos.y));
 

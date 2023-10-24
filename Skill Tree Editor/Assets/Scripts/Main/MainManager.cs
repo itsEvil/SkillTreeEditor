@@ -1,6 +1,5 @@
 using System;
-using TMPro.EditorUtilities;
-using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public partial class MainManager : MonoBehaviour
@@ -25,6 +24,8 @@ public partial class MainManager : MonoBehaviour
     private void Awake()
     {
         _timeUntilSave = _saveCooldown;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 90;
 
         Instance = this;
     }

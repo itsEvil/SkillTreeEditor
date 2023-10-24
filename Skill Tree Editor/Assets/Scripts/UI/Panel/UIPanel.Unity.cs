@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +17,6 @@ public partial class UIPanel : MonoBehaviour
         _connections.onClick.AddListener(OnConnections);
         _removal.onClick.AddListener(OnRemoval);
 
-        UnityEngine.Windows.Directory.CreateDirectory(Application.streamingAssetsPath);
+        Directory.CreateDirectory(Application.streamingAssetsPath);
     }
 }

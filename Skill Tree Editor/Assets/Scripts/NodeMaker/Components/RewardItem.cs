@@ -1,82 +1,89 @@
 ﻿using System;
+using System.Xml.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RewardItem : MonoBehaviour
+public interface IReward
 {
-    [SerializeField] private Button _isPercentage;
-    [SerializeField] private TMP_Dropdown _nodeTypeDropdown, _nodeEffectDropdown, _statDropdown;
-    [SerializeField] private TMP_Text _percentageText;
-    [SerializeField] private TMP_InputField _statAmountInput;
-    [SerializeField] private GameObject _stats, _nodeEffect;
+    public void Init(RewardData data) { }
+    public abstract RewardData Export();
+}
+public class RewardItem : MonoBehaviour, IReward
+{
+    [SerializeField] private TMP_Dropdown _rewardTypeDropdrown;
+    [SerializeField] private NodeEffectReward _neReward;
+    [SerializeField] private AbilityReward _aReward;
+    [SerializeField] private DamageReward _dReward;
+    [SerializeField] private StatReward _sReward;
+    [SerializeField] private RoFReward _rofReward;
+    [SerializeField] private ResourceCostReward _rReward;
 
-    private bool _percentage = false;
+    private NodeReward rewardType;
     public void Init(RewardData data)
     {
-        _percentage = data.IsPercentage;
-        _nodeTypeDropdown.value = (int)data.Reward;
-        _statDropdown.value = data.RewardIndex;
-        _statAmountInput.text = data.RewardAmount.ToString();
-        UpdatePercentageText();
-
-        OnNodeType((int)data.Reward);
+        rewardType = data.Reward;
+        _rewardTypeDropdrown.value = (int)data.Reward;
+        HandleRewardType();
     }
+
+    private void HandleRewardType()
+    {
+        _neReward.gameObject.SetActive(rewardType == NodeReward.NODE_EFFECT);
+        _sReward.gameObject.SetActive(rewardType == NodeReward.STAT);
+        _aReward.gameObject.SetActive(rewardType == NodeReward.ABILITY_CAST);
+        _dReward.gameObject.SetActive(rewardType == NodeReward.DAMAGE);
+        _rofReward.gameObject.SetActive(rewardType == NodeReward.RATE_OF_FIRE);
+        _rReward.gameObject.SetActive(rewardType == NodeReward.RESOURCE_COST);
+    }
+
     public RewardData Export()
     {
-        NodeReward type = (NodeReward)_nodeTypeDropdown.value;
-        int rewardIndex = 0;
-        int rewardAmount = 0;
+        if (rewardType == NodeReward.NODE_EFFECT)
+            return _neReward.Export();
+        if(rewardType == NodeReward.STAT) 
+            return _sReward.Export();
+        if(rewardType == NodeReward.DAMAGE)
+            return _dReward.Export();
+        if (rewardType == NodeReward.RATE_OF_FIRE)
+            return _rofReward.Export();
+        if (rewardType == NodeReward.RESOURCE_COST)
+            return _rReward.Export();
+        if (rewardType == NodeReward.ABILITY_CAST)
+            return _aReward.Export();
 
-        if (type == NodeReward.STAT)
-        {
-            rewardIndex = _statDropdown.value;
-
-            if (!int.TryParse(_statAmountInput.text, out rewardAmount))
-            {
-                rewardAmount = 0;
-            }
-        }
-        else if (type == NodeReward.NODE_EFFECT)
-            rewardIndex = _nodeEffectDropdown.value;
-
-        return new RewardData(type, rewardIndex, rewardAmount, _percentage);
-    }
-    private void UpdatePercentageText()
-    {
-        _percentageText.text = $"Is Percentage: {(_percentage ? "Yes" : "No")}";
+        return RewardData.Empty;
+        //NodeReward type = (NodeReward)_nodeTypeDropdown.value;
+        //int rewardIndex = 0;
+        //int rewardAmount = 0;
+        //
+        //if (type == NodeReward.STAT)
+        //{
+        //    rewardIndex = _statDropdown.value;
+        //
+        //    if (!int.TryParse(_statAmountInput.text, out rewardAmount))
+        //    {
+        //        rewardAmount = 0;
+        //    }
+        //}
+        //else if (type == NodeReward.NODE_EFFECT)
+        //    rewardIndex = _nodeEffectDropdown.value;
+        //
+        //return new RewardData(type, rewardIndex, rewardAmount, _percentage);
     }
 
     public void OnEnable()
     {
-        _isPercentage.onClick.AddListener(OnPercentage);
-        _nodeTypeDropdown.onValueChanged.AddListener(OnNodeType);
+        _rewardTypeDropdrown.onValueChanged.AddListener(OnRewardType);
     }
-
-    private void OnNodeType(int value)
-    {
-        _stats.SetActive(value == 1);
-        _nodeEffect.SetActive(value == 2);
-    }
-
-    private void OnPercentage()
-    {
-        _percentage = !_percentage;
-        UpdatePercentageText();
-    }
-
     public void OnDisable()
     {
-        Dispose();
+        _rewardTypeDropdrown.onValueChanged.RemoveAllListeners();
     }
-    public void OnDestroy()
+    private void OnRewardType(int arg0)
     {
-        Dispose();
-    }
-
-    private void Dispose()
-    {
-        _isPercentage.onClick.RemoveAllListeners();
-        _nodeTypeDropdown.onValueChanged.RemoveAllListeners();
+        rewardType = (NodeReward)arg0;
+        HandleRewardType();
     }
 }
